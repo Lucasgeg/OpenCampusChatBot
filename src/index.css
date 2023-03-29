@@ -1,13 +1,67 @@
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/assets/bg.jpg");
+  background-size: contain;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.modal {
+  width: 20%;
+  height: 55%;
+  background-color: #fafafa;
+  position: fixed;
+  bottom: 0;
+  border-radius: 1rem 1rem 0 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1fr 10fr 1fr;
+  grid-template-areas:
+    "header"
+    "content"
+    "chatbox";
+}
+
+.header {
+  grid-area: header;
+  background-color: aqua;
+  cursor: pointer;
+}
+.content {
+  grid-area: content;
+  background-color: gray;
+}
+.chatbox {
+  grid-area: chatbox;
+  background-color: aquamarine;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-close {
+  transform: translateY(91%);
+  transition-duration: 1s;
+}
+
+.modal-open {
+  transition-duration: 1s;
+}
+.chatInput {
+  height: 100%;
+  width: 100%;
 }
