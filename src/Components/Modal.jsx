@@ -24,6 +24,12 @@ export const Modal = () => {
     },
   ]);
 
+  const rotateModal = () => {
+    const modal = document.querySelector(".modal");
+    modal.style.transition = "transform 1s";
+    modal.style.transform = "rotate(360deg)";
+  };
+
   // Function to handle opening and closing the chat modal
   const handleOpen = () => {
     setIsOpen((prevState) => !prevState);
@@ -52,11 +58,9 @@ export const Modal = () => {
   // Function to handle user input submission
   const handleSubmit = async (e) => {
     if (e.key === "Enter") {
-      // Check for special commands
       if (textInput === "flip") {
-        /* animation flip */
+        rotateModal();
       }
-
       // Check for maximum message length
       if (textInput.length >= 255) {
         return setMessageContent([
