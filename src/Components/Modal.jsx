@@ -61,7 +61,7 @@ export const Modal = () => {
     const apiTarget = workLocaly ? GLOBALS.LOCAL_API : GLOBALS.CLOUD_API;
     const sessionId = randomId;
     const response = await axios
-      .post(apiTarget, {
+      .post("https://openchatbot-back.onrender.com/dialogflow", {
         queryText: textInput,
         sessionId: sessionId,
       })
