@@ -11,7 +11,7 @@ const GLOBALS = {
 };
 
 const workLocaly = () => {
-  return window.location.href.startsWith("http://localhost");
+  return window.location.href.startsWith("http://localhost") ? true : false;
 };
 export const Modal = () => {
   // Ref for scrolling to the bottom of the chat window
