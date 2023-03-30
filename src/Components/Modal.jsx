@@ -83,8 +83,8 @@ export const Modal = () => {
     // Use the random ID as the session ID for the chat
     const sessionId = randomId;
     const response = await axios
-      .post("http://localhost:8080/dialogflow", {
-        // .post("https://openchatbot-back.onrender.com/dialogflow", {
+      // !local .post("http://localhost:8080/dialogflow", {
+      .post("https://openchatbot-back.onrender.com/dialogflow", {
         queryText: textInput,
         sessionId: sessionId,
       })
