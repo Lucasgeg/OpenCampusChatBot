@@ -12,6 +12,9 @@ import avatar from "../assets/avatar.jpg";
 const randomId = uuidv4();
 
 export const Modal = () => {
+  axios.get("https://openchatbot-back.onrender.com/check").then((response) => {
+    console.log(response.data);
+  });
   // Ref for scrolling to the bottom of the chat window
   const messagesEndRef = useRef(null);
   const modalRef = useRef(null);
