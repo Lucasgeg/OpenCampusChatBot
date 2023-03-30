@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { CloseIcon } from "./CloseIcon";
 
 // Generate a random ID for the chat session
 const randomId = uuidv4();
@@ -18,12 +19,13 @@ export const Modal = () => {
   const messagesEndRef = useRef(null);
   const modalRef = useRef(null);
   const headerRef = useRef(null);
+
   const contentRef = useRef(null);
+  const inputRef = useRef(null);
   // State for the chat modal
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   // State for the user input text
   const [textInput, setTextInput] = useState("");
-
   // State for the chat messages
   const [messageContent, setMessageContent] = useState([
     {
@@ -32,34 +34,25 @@ export const Modal = () => {
         "Bonjour et bienvenue sur notre Chat intéractif! Vous allez voir on va bien s'entendre!",
     },
   ]);
-
-  const handleModal = () => {
-    const headerHeight = headerRef.current.offsetHeight;
-    const modalHeight = modalRef.current.innerHeight;
-    const windowHeight = window.innerHeight;
-    const contentHeight = contentRef.current.offsetHeight;
-    if (isOpen) {
-      modalRef.current.style.transform = `translateY(${"100%" + headerHeight})`;
-    }
-    setIsOpen((prevState) => !prevState);
-  };
+  const [displayModal, setDisplayModal] = useState(true);
+  // todo: fix flip function
+  // todo: send the user message, get api status, if handle, dotpoint animations
+  // todo: button close modal / button fullscreen modal
   useEffect(() => {
     const rotateModal = () => {
       const modal = modalRef.current;
       modal.style.transition = "transform 1s";
       modal.style.transform = "rotate(360deg)";
-      /* const modal = document.querySelector(".modal");
-      modal.style.transition = "transform 1s";
-      modal.style.transform = "rotate(360deg)"; */
     };
     if (textInput === "flip") {
       rotateModal();
     }
-  }, [textInput]);
+  });
 
   // Function to handle opening and closing the chat modal
   const handleOpen = () => {
     setIsOpen((prevState) => !prevState);
+    isOpen === false && inputRef.current.focus();
   };
 
   // Function to get a response from the chatbot API
@@ -110,6 +103,10 @@ export const Modal = () => {
       setTextInput("");
     }
   };
+
+  const handleDisplayModal = () => {
+    setDisplayModal(false);
+  };
   return (
     <>
       <div
@@ -118,6 +115,11 @@ export const Modal = () => {
       >
         <div className="header" onClick={handleOpen} ref={headerRef}>
           Open Campus Chat Box
+          <div className="iconsBox">
+            <span className="icon">
+              <CloseIcon size={15} />
+            </span>
+          </div>
         </div>
         <div className="content" ref={contentRef}>
           {messageContent.map((message, index) => (
@@ -129,6 +131,7 @@ export const Modal = () => {
         </div>
         <div className="chatbox">
           <input
+            ref={inputRef}
             type="text"
             className="chatInput"
             value={textInput}
