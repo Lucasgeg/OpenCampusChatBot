@@ -2,9 +2,11 @@ import axios from "axios";
 import classNames from "classnames";
 import { useRef, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import BouncingDotsLoader from "./BoundingDotsLoader";
 import { CloseIcon } from "./CloseIcon";
 import { FullScreen } from "./FullScreen";
 import { Minimize } from "./Minimize";
+import avatar from "../assets/avatar.jpg";
 
 // Generate a random ID for the chat session
 const randomId = uuidv4();
@@ -33,15 +35,22 @@ export const Modal = () => {
 
   const [fullScreen, setFullScreen] = useState(false);
 
+  const [isPending, setIsPending] = useState(false);
+
   const handleFullScreen = () => {
     setFullScreen((prevState) => !prevState);
   };
-  // todo: fix flip function
-  // todo: send the user message, get api status, if handle, dotpoint animations
   useEffect(() => {
     const rotateModal = () => {
       const modal = document.getElementById("modal");
       modal.classList.add("rotate");
+      setTimeout(() => {
+        modal.classList.remove("rotate");
+      }, 1000);
+    };
+    const showPicture = () => {
+      const picture = document.getElementById("pictureLito");
+      picture.classList.add("showPicture");
     };
     if (
       messageContent &&
@@ -50,8 +59,19 @@ export const Modal = () => {
     ) {
       rotateModal();
     }
+    if (
+      messageContent &&
+      messageContent.length >= 2 &&
+      messageContent[messageContent?.length - 2].content === "montre toi"
+    ) {
+      showPicture();
+    }
   }, [messageContent, modalRef]);
 
+  const closePicture = () => {
+    const picture = document.getElementById("pictureLito");
+    picture.classList.remove("showPicture");
+  };
   // Function to handle opening and closing the chat modal
   const handleOpen = () => {
     setIsOpen((prevState) => !prevState);
@@ -63,14 +83,14 @@ export const Modal = () => {
     // Use the random ID as the session ID for the chat
     const sessionId = randomId;
     const response = await axios
-      .post("https://openchatbot-back.onrender.com/dialogflow", {
+      .post("http://localhost:8080/dialogflow", {
+        // .post("https://openchatbot-back.onrender.com/dialogflow", {
         queryText: textInput,
         sessionId: sessionId,
       })
       .catch((error) => {
         console.error(error);
       });
-    console.log(response.data);
     return response.data;
   };
 
@@ -89,18 +109,31 @@ export const Modal = () => {
         ]);
       }
       // Get the response from the chatbot API
-      const response = await getResponse();
 
       // Update the message content with the user input and the chatbot response
       setMessageContent((prevState) => [
         ...prevState,
         { sender: "user", content: textInput },
       ]);
-      setMessageContent((prevState) => [
-        ...prevState,
-        { sender: "lito", content: response },
-      ]);
-
+      setIsPending(true);
+      try {
+        const response = await getResponse();
+        setMessageContent((prevState) => [
+          ...prevState,
+          { sender: "lito", content: response },
+        ]);
+      } catch (error) {
+        console.log(error);
+        setMessageContent((prevState) => [
+          ...prevState,
+          {
+            sender: "lito",
+            content:
+              "Je suis désolé mais une erreur est arrivé 😥 Merci de réessayer plus tard ou de contacter l'établissement.",
+          },
+        ]);
+      }
+      setIsPending(false);
       // Clear the user input text
       setTextInput("");
     }
@@ -112,6 +145,9 @@ export const Modal = () => {
 
   return (
     <>
+      <div className="avatar" onClick={handleOpen}>
+        <img src={avatar} alt="avatar" />
+      </div>
       {displayModal && (
         <div
           id="modal"
@@ -143,6 +179,12 @@ export const Modal = () => {
                 {message.content}
               </span>
             ))}
+            {isPending && (
+              <span className="lito">
+                <BouncingDotsLoader />
+              </span>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
           <div className="chatbox">
@@ -153,10 +195,12 @@ export const Modal = () => {
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               onKeyDown={(e) => handleSubmit(e)}
+              disabled={isPending}
             />
           </div>
         </div>
       )}
+      <div className="pictureLito" id="pictureLito" onClick={closePicture} />
     </>
   );
 };
