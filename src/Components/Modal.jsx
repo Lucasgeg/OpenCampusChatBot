@@ -7,6 +7,7 @@ import { CloseIcon } from "./CloseIcon";
 import { FullScreen } from "./FullScreen";
 import { Minimize } from "./Minimize";
 import avatar from "../assets/avatar.jpg";
+import fullPicture from "../assets/lito.png";
 
 // Generate a random ID for the chat session
 const randomId = uuidv4();
@@ -34,8 +35,6 @@ export const Modal = () => {
         "Bonjour et bienvenue! Je suis Lito votre compagnon interactif! Vous allez voir on va bien s'entendre!",
     },
   ]);
-  const [displayModal, setDisplayModal] = useState(true);
-
   const [fullScreen, setFullScreen] = useState(false);
 
   const [isPending, setIsPending] = useState(false);
@@ -148,68 +147,66 @@ export const Modal = () => {
     }
   };
 
-  const handleDisplayModal = () => {
-    setDisplayModal(false);
-  };
-
   return (
     <>
       <div className="avatar" onClick={handleOpen}>
         <img src={avatar} alt="avatar" />
       </div>
-      {displayModal && (
-        <div
-          id="modal"
-          className={classNames(
-            "modal",
-            isOpen ? " modal-open" : " modal-close",
-            fullScreen && "fullscreen"
-          )}
-          ref={modalRef}
-        >
-          <div className="header" onClick={handleOpen} ref={headerRef}>
-            Open Campus Chat Box
-            <div className="iconsBox" onClick={(e) => e.stopPropagation()}>
-              <span className="icon" onClick={handleFullScreen}>
-                {fullScreen ? (
-                  <Minimize size={fullScreen ? 25 : 15} />
-                ) : (
-                  <FullScreen size={fullScreen ? 25 : 15} />
-                )}
-              </span>
-              <span className="icon" onClick={handleDisplayModal}>
-                <CloseIcon size={fullScreen ? 25 : 15} />
-              </span>
-            </div>
-          </div>
-          <div className="content" ref={contentRef}>
-            {messageContent.map((message, index) => (
-              <span key={index} className={message.sender}>
-                {message.content}
-              </span>
-            ))}
-            {isPending && (
-              <span className="lito">
-                <BouncingDotsLoader />
-              </span>
-            )}
 
-            <div ref={messagesEndRef} />
-          </div>
-          <div className="chatbox">
-            <input
-              ref={inputRef}
-              type="text"
-              className="chatInput"
-              value={textInput}
-              onChange={(e) => setTextInput(e.target.value)}
-              onKeyDown={(e) => handleSubmit(e)}
-              disabled={isPending}
-            />
+      <div
+        id="modal"
+        className={classNames(
+          "modal",
+          isOpen ? " modal-open" : " modal-close",
+          fullScreen && "fullscreen"
+        )}
+        ref={modalRef}
+      >
+        <div className="header" onClick={handleOpen} ref={headerRef}>
+          Open Campus Chat Box
+          <div className="iconsBox" onClick={(e) => e.stopPropagation()}>
+            <span className="icon" onClick={handleFullScreen}>
+              {fullScreen ? (
+                <Minimize size={fullScreen ? 25 : 15} />
+              ) : (
+                <FullScreen size={fullScreen ? 25 : 15} />
+              )}
+            </span>
+            <span className="icon" onClick={handleOpen}>
+              <CloseIcon size={fullScreen ? 25 : 15} />
+            </span>
           </div>
         </div>
-      )}
-      <div className="pictureLito" id="pictureLito" onClick={closePicture} />
+        <div className="content" ref={contentRef}>
+          {messageContent.map((message, index) => (
+            <span key={index} className={message.sender}>
+              {message.content}
+            </span>
+          ))}
+          {isPending && (
+            <span className="lito">
+              <BouncingDotsLoader />
+            </span>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="chatbox">
+          <input
+            ref={inputRef}
+            type="text"
+            className="chatInput"
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+            onKeyDown={(e) => handleSubmit(e)}
+            disabled={isPending}
+          />
+        </div>
+      </div>
+
+      <div className="pictureLito" id="pictureLito" onClick={closePicture}>
+        <img src={fullPicture} alt="Full Lito" />
+      </div>
     </>
   );
 };
