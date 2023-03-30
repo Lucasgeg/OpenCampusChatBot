@@ -35,7 +35,6 @@ export const Modal = () => {
 
   const handleModal = () => {
     const headerHeight = headerRef.current.offsetHeight;
-    console.log(headerHeight);
     const modalHeight = modalRef.current.innerHeight;
     const windowHeight = window.innerHeight;
     const contentHeight = contentRef.current.offsetHeight;
@@ -117,7 +116,7 @@ export const Modal = () => {
         className={isOpen ? "modal modal-open" : "modal modal-close"}
         ref={modalRef}
       >
-        <div className="header" onClick={handleModal} ref={headerRef}>
+        <div className="header" onClick={handleOpen} ref={headerRef}>
           Open Campus Chat Box
         </div>
         <div className="content" ref={contentRef}>
