@@ -108,7 +108,6 @@ export const Modal = () => {
           "Je suis désolé mais votre message est trop long (plus de 256 charactères)",
         ]);
       }
-      // Get the response from the chatbot API
 
       // Update the message content with the user input and the chatbot response
       setMessageContent((prevState) => [
@@ -117,7 +116,14 @@ export const Modal = () => {
       ]);
       setIsPending(true);
       try {
-        const response = await getResponse();
+        let timeoutId;
+        const timeoutPromise = new Promise((resolve, reject) => {
+          timeoutId = setTimeout(() => {
+            reject(new Error("Timeout"));
+          }, 10000);
+        });
+        const response = await Promise.race([getResponse(), timeoutPromise]);
+        clearTimeout(timeoutId);
         setMessageContent((prevState) => [
           ...prevState,
           { sender: "lito", content: response },
