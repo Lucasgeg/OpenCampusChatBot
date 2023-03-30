@@ -121,3 +121,8 @@ code {
   position: absolute;
   right: 1rem;
 }
+
+.rotate {
+  transform: rotate(360deg);
+  transition: 1s;
+}

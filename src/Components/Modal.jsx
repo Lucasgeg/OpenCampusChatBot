@@ -26,7 +26,7 @@ export const Modal = () => {
     {
       sender: "lito",
       content:
-        "Bonjour et bienvenue sur notre Chat intéractif! Vous allez voir on va bien s'entendre!",
+        "Bonjour et bienvenue! Je suis Lito votre compagnon interactif! Vous allez voir on va bien s'entendre!",
     },
   ]);
   const [displayModal, setDisplayModal] = useState(true);
@@ -38,17 +38,19 @@ export const Modal = () => {
   };
   // todo: fix flip function
   // todo: send the user message, get api status, if handle, dotpoint animations
-  // todo: button close modal / button fullscreen modal
   useEffect(() => {
     const rotateModal = () => {
-      const modal = modalRef.current;
-      modal.style.transition = "transform 1s";
-      modal.style.transform = "rotate(360deg)";
+      const modal = document.getElementById("modal");
+      modal.classList.add("rotate");
     };
-    if (textInput === "flip") {
+    if (
+      messageContent &&
+      messageContent.length >= 2 &&
+      messageContent[messageContent?.length - 2].content === "flip"
+    ) {
       rotateModal();
     }
-  });
+  }, [messageContent, modalRef]);
 
   // Function to handle opening and closing the chat modal
   const handleOpen = () => {
@@ -86,7 +88,6 @@ export const Modal = () => {
           "Je suis désolé mais votre message est trop long (plus de 256 charactères)",
         ]);
       }
-
       // Get the response from the chatbot API
       const response = await getResponse();
 
@@ -113,6 +114,7 @@ export const Modal = () => {
     <>
       {displayModal && (
         <div
+          id="modal"
           className={classNames(
             "modal",
             isOpen ? " modal-open" : " modal-close",
