@@ -77,10 +77,21 @@ code {
   transition-duration: 1s;
 }
 .chatInput {
-  height: 100%;
   width: 100%;
-  padding-left: 0.33rem;
+  padding: 0.5rem 0.5rem 0 0.5rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  resize: none;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  font-family: cursive;
 }
+
+.chatInput::-webkit-scrollbar {
+  display: none;
+}
+
 .lito {
   background: linear-gradient(
     0deg,
@@ -114,6 +125,7 @@ code {
   text-align: right;
   border-radius: 1rem;
   font-family: cursive;
+  overflow: hidden;
 }
 
 .iconsBox {

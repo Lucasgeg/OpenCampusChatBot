@@ -192,7 +192,7 @@ export const Modal = () => {
           <div ref={messagesEndRef} />
         </div>
         <div className="chatbox">
-          <input
+          <textarea
             ref={inputRef}
             type="text"
             className="chatInput"
