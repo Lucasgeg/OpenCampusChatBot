@@ -200,6 +200,7 @@ export const Modal = () => {
             onChange={(e) => setTextInput(e.target.value)}
             onKeyDown={(e) => handleSubmit(e)}
             disabled={isPending}
+            placeholder="Entrez votre message..."
           />
         </div>
       </div>
