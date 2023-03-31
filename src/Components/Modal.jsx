@@ -137,7 +137,7 @@ export const Modal = () => {
           {
             sender: "lito",
             content:
-              "Je suis désolé mais une erreur est arrivé 😥 Merci de réessayer plus tard ou de contacter l'établissement.",
+              "Je suis désolé mais une erreur est arrivée 😥 Merci de réessayer plus tard ou de contacter l'établissement.",
           },
         ]);
       }
@@ -163,17 +163,19 @@ export const Modal = () => {
         ref={modalRef}
       >
         <div className="header" onClick={handleOpen} ref={headerRef}>
-          Open Campus Chat Box
-          <div className="iconsBox" onClick={(e) => e.stopPropagation()}>
+          Open Campus Tchat Box
+          <div className="iconsBox left" onClick={(e) => e.stopPropagation()}>
             <span className="icon" onClick={handleFullScreen}>
               {fullScreen ? (
-                <Minimize size={fullScreen ? 25 : 15} />
+                <Minimize size={fullScreen ? 25 : 25} />
               ) : (
-                <FullScreen size={fullScreen ? 25 : 15} />
+                <FullScreen size={fullScreen ? 25 : 25} />
               )}
             </span>
+          </div>
+          <div className="iconsBox right" onClick={(e) => e.stopPropagation()}>
             <span className="icon" onClick={handleOpen}>
-              <CloseIcon size={fullScreen ? 25 : 15} />
+              <CloseIcon size={fullScreen ? 25 : 25} />
             </span>
           </div>
         </div>
